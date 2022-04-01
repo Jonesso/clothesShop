@@ -1,0 +1,11 @@
+.shop-nav {
+  display: flex;
+  align-items: center;
+  font-size: 1.25em;
+  /*background-color: #faedcd;*/
+  background-color: #bde0fe;
+}
+
+.shop-nav a:hover {
+  background-color: #a2d2ff;
+}

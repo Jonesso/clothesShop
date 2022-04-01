@@ -1,0 +1,42 @@
+<h1 align="center" class="display-4 text-dark">Items</h1>
+<a *ngIf="currentUser?.role == Role.Customer" style="color: inherit"
+   routerLink="seller/item/new" class="float-right mb-3"> <fa-icon class="text-dark m-2" [icon]="faPlus">Add</fa-icon>
+</a>
+<table id="table" class="table table-striped text-center text-dark" style="width:100%;">
+    <thead>
+    <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Code</th>
+        <th scope="col">Name</th>
+        <th scope="col">Type</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Stock</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let itemInfo of page?.content" class="text-dark">
+        <th class="align-middle " scope="row">
+            <img height="100px" src="{{itemInfo.itemIcon}}" alt="{{itemInfo.itemName}}">
+        </th>
+        <td class="align-middle">{{itemInfo.itemId}}</td>
+        <td class="align-middle">{{itemInfo.itemName}}</td>
+        <td class="align-middle">{{CategoryType[itemInfo.categoryType]}}</td>
+        <td class="align-middle">{{itemInfo.itemDescription}}</td>
+        <td class="align-middle">{{itemInfo.itemPrice | currency}}</td>
+        <td class="align-middle">{{itemInfo.itemStock}}</td>
+        <td class="align-middle">{{ItemStatus[itemInfo.itemStatus]}}</td>
+        <td class="align-middle">
+            <a style="display: block" routerLink="/seller/item/{{itemInfo.itemId}}/edit">
+                Edit</a>
+
+            <a *ngIf="currentUser?.role == Role.Customer" style="display: block"
+               (click)="remove(page.content, itemInfo.itemId)" routerLink="./">
+                Remove</a>
+        </td>
+
+    </tbody>
+</table>
+<app-pagination [currentPage]="page"></app-pagination>

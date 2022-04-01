@@ -1,0 +1,28 @@
+<h1 align="center" class="display-4 mb-5 text-dark">Order Detail</h1>
+<table class="table table-striped text-center text-dark">
+    <thead>
+    <tr>
+        <th scope="col">Photo</th>
+        <th scope="col">Name</th>
+        <th scope="col">Description</th>
+        <th scope="col">Price</th>
+        <th scope="col">Quantity</th>
+        <th scope="col">Subtotal</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let item of (order$ | async)?.items" class="text-dark">
+        <th class="align-middle" scope="row">
+            <a routerLink="/seller/item/{{item.itemId}}/edit"><img height="100px" src="{{item.itemIcon}}"
+                                                                         alt="{{item.itemName}}"></a>
+        </th>
+        <td class="align-middle"><a routerLink="/seller/item/{{item.itemId}}/edit">{{item.itemName}}</a></td>
+        <td class="align-middle">{{item.itemDescription}}</td>
+        <td class="align-middle">{{item.itemPrice | currency}}</td>
+        <td class="align-middle">{{item.count}}</td>
+        <td class="align-middle">{{(item.itemPrice * item.count | currency)}}</td>
+    </tr>
+    </tbody>
+</table>
+<h5 style="display: inline" class="float-right text-dark">Total: {{(order$ | async)?.orderAmount | currency}}</h5>

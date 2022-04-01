@@ -1,0 +1,104 @@
+<h1 align="center" class="display-4 mb-5 text-dark">Edit Item</h1>
+<div style="width:40%; margin: 25px auto" class="text-dark">
+    <form #form="ngForm" (ngSubmit)="onSubmit()">
+        <!--Id-->
+        <div class="form-group">
+            <label for="itemId">Code</label>
+            <input [readOnly]="isEdit" [disabled]="isEdit" [(ngModel)]="item.itemId" type="text"
+                   class="form-control form-control-lg"
+          id="itemId" name="itemId" required #itemIdInput="ngModel">
+          <!-- TODO:                  #itemIdInput-->
+
+          <div *ngIf="itemIdInput.invalid && (itemIdInput.dirty ||itemIdInput.touched)">
+                <div *ngIf="itemIdInput.errors.required">
+                    Name is required.
+                </div>
+            </div>
+        </div>
+        <!--Photo-->
+        <div class="form-group">
+            <label>Photo Link</label>
+            <input [(ngModel)]="item.itemIcon" type="text" class="form-control form-control-lg" id="itemIcon"
+                   name="itemIcon" placeholder="Photo">
+        </div>
+
+        <!--Name-->
+        <div class="form-group">
+            <label>Name</label>
+            <input [(ngModel)]="item.itemName" type="text" class="form-control form-control-lg" id="itemName"
+                   #itemName="ngModel"
+                   name="itemName" placeholder="Name" required>
+        </div>
+        <div *ngIf="itemName.invalid && (itemName.dirty ||itemName.touched)">
+            <div *ngIf="itemName.errors.required">
+                Name is required.
+            </div>
+        </div>
+
+        <!--Category-->
+        <div class="form-group">
+            <label for="categoryType">Category</label>
+            <select class="custom-select custom-select-lg " id="categoryType" name="categoryType"
+                    [(ngModel)]="item.categoryType"
+                    required>
+                <option [ngValue]=0>Tops</option>
+                <option [ngValue]=1>Trousers & Shorts</option>
+                <option [ngValue]=2>Shoes</option>
+            </select>
+        </div>
+
+        <!--Description-->
+        <div class="form-group">
+            <label>Description</label>
+            <textarea class="form-control form-control-lg text-left"
+                      id="itemDescription" name="itemDescription"
+                      placeholder="Description" [(ngModel)]="item.itemDescription"></textarea>
+        </div>
+        <!--Price-->
+        <div class="form-group">
+            <label for="itemPrice">Price</label>
+            <input class="form-control form-control-lg"
+                   type="number"
+                   id="itemPrice"
+                   name="itemPrice"
+                   #itemPrice="ngModel"
+                   [ngModel]="item.itemPrice" (ngModelChange)="item.itemPrice=$event"
+                   required>
+            <div *ngIf="itemPrice.invalid && (itemPrice.dirty ||itemPrice.touched)">
+                <div *ngIf="itemPrice.errors.required">
+                    Price is required.
+                </div>
+            </div>
+        </div>
+        <!--Stock-->
+        <div class="form-group">
+            <label for="itemStock">Stock</label>
+            <input class="form-control form-control-lg"
+                   type="number"
+                   id="itemStock"
+                   name="itemStock"
+                   min="0" #itemStock="ngModel"
+                   [(ngModel)]="item.itemStock"
+                   required>
+            <div *ngIf="itemStock.invalid && (itemStock.dirty ||itemStock.touched)">
+                <div *ngIf="itemStock.errors.required">
+                    Stock is required.
+                </div>
+            </div>
+        </div>
+        <!--Status-->
+        <div class="form-group">
+            <label for="itemStatus">Status</label>
+            <select class="custom-select custom-select-lg " id="itemStatus" name="itemStatus" required
+                    [(ngModel)]="item.itemStatus">
+                <option [ngValue]=0>Available</option>
+                <option [ngValue]=1>Unavailable</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" [disabled]="!form.form.valid" class="btn btn-lg btn-danger btn-block">Submit</button>
+        </div>
+    </form>
+
+
+</div>

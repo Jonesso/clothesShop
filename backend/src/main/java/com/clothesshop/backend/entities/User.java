@@ -31,17 +31,23 @@ public class User implements Serializable {
   @NaturalId
   @NotEmpty
   private String email;
+
   @NotEmpty
-  @Size(min = 7, message = "Password must be at least 7 symbols long")
+  @Size(min = 8, message = "Password must be at least 8 symbols long")
   private String password;
+
   @NotEmpty
   private String name;
+
   @NotEmpty
   private String phone;
+
   @NotEmpty
   private String address;
+
   @NotNull
   private boolean active;
+
   @NotEmpty
   private String role = "ROLE_CUSTOMER";
 

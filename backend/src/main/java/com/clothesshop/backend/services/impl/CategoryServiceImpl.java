@@ -27,22 +27,25 @@ public class CategoryServiceImpl implements CategoryService {
   @Override
   public ItemCategory findByCategoryType(Integer categoryType) {
     ItemCategory res = itemCategoryRepository.findByCategoryType(categoryType);
+
       if (res == null) {
           throw new CustomException(ResultEnum.CATEGORY_NOT_FOUND);
       }
+
     return res;
   }
 
   @Override
   public List<ItemCategory> findByCategoryTypeIn(List<Integer> categoryTypeList) {
+
     return itemCategoryRepository.findByCategoryTypeInOrderByCategoryTypeAsc(categoryTypeList);
   }
 
   @Override
   @Transactional
   public ItemCategory save(ItemCategory itemCategory) {
+
     return itemCategoryRepository.save(itemCategory);
   }
-
 
 }

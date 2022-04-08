@@ -25,41 +25,51 @@ public class OrderServiceImpl implements OrderService {
 
   @Autowired
   OrderRepository orderRepository;
+
   @Autowired
   UserRepository userRepository;
+
   @Autowired
   ItemInfoRepository itemInfoRepository;
+
   @Autowired
   ItemService itemService;
+
   @Autowired
   ItemInOrderRepository itemInOrderRepository;
 
   @Override
   public Page<UserOrder> findAll(Pageable pageable) {
+
     return orderRepository.findAllByOrderByOrderStatusAscCreateTimeDesc(pageable);
   }
 
   @Override
   public Page<UserOrder> findByStatus(Integer status, Pageable pageable) {
+
     return orderRepository.findAllByOrderStatusOrderByCreateTimeDesc(status, pageable);
   }
 
   @Override
   public Page<UserOrder> findByBuyerEmail(String email, Pageable pageable) {
+
     return orderRepository.findAllByBuyerEmailOrderByOrderStatusAscCreateTimeDesc(email, pageable);
   }
 
   @Override
   public Page<UserOrder> findByBuyerPhone(String phone, Pageable pageable) {
+
     return orderRepository.findAllByBuyerPhoneOrderByOrderStatusAscCreateTimeDesc(phone, pageable);
   }
 
   @Override
   public UserOrder findOne(Long orderId) {
     UserOrder userOrder = orderRepository.findByOrderId(orderId);
+
     if (userOrder == null) {
       throw new CustomException(ResultEnum.ORDER_NOT_FOUND);
     }
+
     return userOrder;
   }
 
@@ -67,12 +77,14 @@ public class OrderServiceImpl implements OrderService {
   @Transactional
   public UserOrder finish(Long orderId) {
     UserOrder userOrder = findOne(orderId);
+
     if (!userOrder.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
       throw new CustomException(ResultEnum.ORDER_STATUS_ERROR);
     }
 
     userOrder.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
     orderRepository.save(userOrder);
+
     return orderRepository.findByOrderId(orderId);
   }
 
@@ -80,6 +92,7 @@ public class OrderServiceImpl implements OrderService {
   @Transactional
   public UserOrder cancel(Long orderId) {
     UserOrder userOrder = findOne(orderId);
+
     if (!userOrder.getOrderStatus().equals(OrderStatusEnum.NEW.getCode())) {
       throw new CustomException(ResultEnum.ORDER_STATUS_ERROR);
     }
@@ -91,10 +104,12 @@ public class OrderServiceImpl implements OrderService {
     Iterable<ItemInOrder> items = userOrder.getItems();
     for (ItemInOrder itemInOrder : items) {
       ItemInfo itemInfo = itemInfoRepository.findByItemId(itemInOrder.getItemId());
+
       if (itemInfo != null) {
         itemService.increaseStock(itemInOrder.getItemId(), itemInOrder.getCount());
       }
     }
+
     return orderRepository.findByOrderId(orderId);
 
   }

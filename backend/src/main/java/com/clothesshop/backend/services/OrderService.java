@@ -21,5 +21,4 @@ public interface OrderService {
   UserOrder finish(Long orderId);
 
   UserOrder cancel(Long orderId);
-
 }

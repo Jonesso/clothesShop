@@ -26,8 +26,10 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   JwtFilter jwtFilter;
+
   @Autowired
   private JwtEntryPoint accessDenyHandler;
+
   @Autowired
   private PasswordEncoder passwordEncoder;
 

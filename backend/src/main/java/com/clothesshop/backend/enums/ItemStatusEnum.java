@@ -20,9 +20,11 @@ public enum ItemStatusEnum implements CodeEnum {
 
     for (ItemStatusEnum statusEnum : ItemStatusEnum.values()) {
         if (statusEnum.getCode().equals(code)) {
+
             return statusEnum.getMessage();
         }
     }
+
     return "";
   }
 

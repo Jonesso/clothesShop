@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.NaturalId;
 
@@ -13,6 +14,7 @@ import org.hibernate.annotations.NaturalId;
 @Entity
 @Data
 @DynamicUpdate
+@NoArgsConstructor
 public class ItemCategory implements Serializable {
 
   @Id
@@ -28,9 +30,6 @@ public class ItemCategory implements Serializable {
 
   private Date updateTime;
 
-
-  public ItemCategory() {
-  }
 
   public ItemCategory(String categoryName, Integer categoryType) {
     this.categoryName = categoryName;

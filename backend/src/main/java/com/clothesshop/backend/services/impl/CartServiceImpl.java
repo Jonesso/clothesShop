@@ -25,15 +25,19 @@ public class CartServiceImpl implements CartService {
 
   @Autowired
   ItemService itemService;
+
   @Autowired
   OrderRepository orderRepository;
+
   @Autowired
   UserRepository userRepository;
 
   @Autowired
   ItemInOrderRepository itemInOrderRepository;
+
   @Autowired
   CartRepository cartRepository;
+
   @Autowired
   UserService userService;
 
@@ -46,11 +50,13 @@ public class CartServiceImpl implements CartService {
   @Transactional
   public void mergeLocalCart(Collection<ItemInOrder> itemInOrders, User user) {
     Cart finalCart = user.getCart();
+
     itemInOrders.forEach(itemInOrder -> {
       Set<ItemInOrder> set = finalCart.getItems();
       Optional<ItemInOrder> old = set.stream()
           .filter(e -> e.getItemId().equals(itemInOrder.getItemId())).findFirst();
       ItemInOrder item;
+
       if (old.isPresent()) {
         item = old.get();
         item.setCount(itemInOrder.getCount() + item.getCount());
@@ -59,10 +65,11 @@ public class CartServiceImpl implements CartService {
         item.setCart(finalCart);
         finalCart.getItems().add(item);
       }
+
       itemInOrderRepository.save(item);
     });
-    cartRepository.save(finalCart);
 
+    cartRepository.save(finalCart);
   }
 
   @Override
@@ -70,6 +77,7 @@ public class CartServiceImpl implements CartService {
   public void delete(String itemId, User user) {
     var op = user.getCart().getItems().stream().filter(e -> itemId.equals(e.getItemId()))
         .findFirst();
+
     op.ifPresent(itemInOrder -> {
       itemInOrder.setCart(null);
       itemInOrderRepository.deleteById(itemInOrder.getId());
@@ -82,6 +90,7 @@ public class CartServiceImpl implements CartService {
   public void checkout(User user) {
     // Creat an userOrder
     UserOrder userOrder = new UserOrder(user);
+
     orderRepository.save(userOrder);
 
     // clear cart's foreign key & set userOrder's foreign key& decrease stock

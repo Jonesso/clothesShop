@@ -21,6 +21,7 @@ public class ItemInOrderServiceImpl implements ItemInOrderService {
   public void update(String itemId, Integer quantity, User user) {
     var op = user.getCart().getItems().stream().filter(e -> itemId.equals(e.getItemId()))
         .findFirst();
+
     op.ifPresent(itemInOrder -> {
       itemInOrder.setCount(quantity);
       itemInOrderRepository.save(itemInOrder);
@@ -33,7 +34,9 @@ public class ItemInOrderServiceImpl implements ItemInOrderService {
     var op = user.getCart().getItems().stream().filter(e -> itemId.equals(e.getItemId()))
         .findFirst();
     AtomicReference<ItemInOrder> res = new AtomicReference<>();
+
     op.ifPresent(res::set);
+
     return res.get();
   }
 }

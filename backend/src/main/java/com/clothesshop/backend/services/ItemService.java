@@ -34,6 +34,4 @@ public interface ItemService {
   ItemInfo save(ItemInfo itemInfo);
 
   void delete(String itemId);
-
-
 }

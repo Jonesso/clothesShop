@@ -48,6 +48,7 @@ public class ItemInfo implements Serializable {
 
   @CreationTimestamp
   private Date createTime;
+
   @UpdateTimestamp
   private Date updateTime;
 

@@ -21,6 +21,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
   @Autowired
   private JwtProvider jwtProvider;
+
   @Autowired
   private UserService userService;
 
@@ -29,6 +30,7 @@ public class JwtFilter extends OncePerRequestFilter {
       HttpServletResponse httpServletResponse, FilterChain filterChain)
       throws ServletException, IOException {
     String jwt = getToken(httpServletRequest);
+
     if (jwt != null && jwtProvider.validate(jwt)) {
       try {
         String userAccount = jwtProvider.getUserAccount(jwt);
@@ -37,15 +39,18 @@ public class JwtFilter extends OncePerRequestFilter {
         // if jwt ok, then authenticate
         SimpleGrantedAuthority sga = new SimpleGrantedAuthority(user.getRole());
         ArrayList<SimpleGrantedAuthority> list = new ArrayList<>();
+
         list.add(sga);
-        UsernamePasswordAuthenticationToken auth
-            = new UsernamePasswordAuthenticationToken(user.getEmail(), null, list);
+
+        UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getEmail(), null, list);
+
         SecurityContextHolder.getContext().setAuthentication(auth);
 
       } catch (Exception e) {
         logger.error("Set Authentication from JWT failed");
       }
     }
+
     filterChain.doFilter(httpServletRequest, httpServletResponse);
   }
 
@@ -53,6 +58,7 @@ public class JwtFilter extends OncePerRequestFilter {
     String authHeader = request.getHeader("Authorization");
 
     if (authHeader != null && authHeader.startsWith("Bearer ")) {
+
       return authHeader.replace("Bearer ", "");
     }
 

@@ -32,17 +32,20 @@ public class ItemServiceImpl implements ItemService {
 
   @Override
   public Page<ItemInfo> findUpAll(Pageable pageable) {
+
     return itemInfoRepository.findAllByItemStatusOrderByItemIdAsc(ItemStatusEnum.UP.getCode(),
         pageable);
   }
 
   @Override
   public Page<ItemInfo> findAll(Pageable pageable) {
+
     return itemInfoRepository.findAllByOrderByItemId(pageable);
   }
 
   @Override
   public Page<ItemInfo> findAllInCategory(Integer categoryType, Pageable pageable) {
+
     return itemInfoRepository.findAllByCategoryTypeOrderByItemIdAsc(categoryType, pageable);
   }
 
@@ -50,11 +53,13 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public void increaseStock(String itemId, int amount) {
     ItemInfo itemInfo = findOne(itemId);
+
     if (itemInfo == null) {
       throw new CustomException(ResultEnum.ITEM_NOT_EXIST);
     }
 
     int update = itemInfo.getItemStock() + amount;
+
     itemInfo.setItemStock(update);
     itemInfoRepository.save(itemInfo);
   }
@@ -63,11 +68,13 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public void decreaseStock(String itemId, int amount) {
     ItemInfo itemInfo = findOne(itemId);
+
     if (itemInfo == null) {
       throw new CustomException(ResultEnum.ITEM_NOT_EXIST);
     }
 
     int update = itemInfo.getItemStock() - amount;
+
     if (update <= 0) {
       throw new CustomException(ResultEnum.ITEM_NOT_ENOUGH);
     }
@@ -80,6 +87,7 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public ItemInfo offSale(String itemId) {
     ItemInfo itemInfo = findOne(itemId);
+
     if (itemInfo == null) {
       throw new CustomException(ResultEnum.ITEM_NOT_EXIST);
     }
@@ -89,6 +97,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     itemInfo.setItemStatus(ItemStatusEnum.DOWN.getCode());
+
     return itemInfoRepository.save(itemInfo);
   }
 
@@ -96,6 +105,7 @@ public class ItemServiceImpl implements ItemService {
   @Transactional
   public ItemInfo onSale(String itemId) {
     ItemInfo itemInfo = findOne(itemId);
+
     if (itemInfo == null) {
       throw new CustomException(ResultEnum.ITEM_NOT_EXIST);
     }
@@ -105,14 +115,15 @@ public class ItemServiceImpl implements ItemService {
     }
 
     itemInfo.setItemStatus(ItemStatusEnum.UP.getCode());
+
     return itemInfoRepository.save(itemInfo);
   }
 
   @Override
   public ItemInfo update(ItemInfo itemInfo) {
-
     // if null throw exception
     categoryService.findByCategoryType(itemInfo.getCategoryType());
+
     if (itemInfo.getItemStatus() > 1) {
       throw new CustomException(ResultEnum.ITEM_STATUS_ERROR);
     }
@@ -128,9 +139,11 @@ public class ItemServiceImpl implements ItemService {
   @Override
   public void delete(String itemId) {
     ItemInfo itemInfo = findOne(itemId);
+
     if (itemInfo == null) {
       throw new CustomException(ResultEnum.ITEM_NOT_EXIST);
     }
+
     itemInfoRepository.delete(itemInfo);
   }
 }

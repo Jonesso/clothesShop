@@ -98,7 +98,9 @@ public class ItemInOrder {
       if (!super.equals(o)) {
           return false;
       }
+
     ItemInOrder item = (ItemInOrder) o;
+
     return Objects.equals(id, item.id) &&
         Objects.equals(itemId, item.itemId) &&
         Objects.equals(itemName, item.itemName) &&

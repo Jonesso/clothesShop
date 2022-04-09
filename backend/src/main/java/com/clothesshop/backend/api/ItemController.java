@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,9 +30,6 @@ public class ItemController {
   @Autowired
   ItemService itemService;
 
-  /**
-   * Show All Categories
-   */
 
   @GetMapping("/item")
   public Page<ItemInfo> findAll(@RequestParam(value = "page", defaultValue = "1") Integer page,
@@ -41,9 +39,13 @@ public class ItemController {
   }
 
   @GetMapping("/item/{itemId}")
-  public ItemInfo showOne(@PathVariable("itemId") String itemId) {
-
-    return itemService.findOne(itemId);
+  public ResponseEntity showOne(@PathVariable("itemId") String itemId) {
+    ItemInfo item = itemService.findOne(itemId);
+    if (item != null) {
+      return ResponseEntity.ok(item);
+    } else {
+      return new ResponseEntity(HttpStatus.NOT_FOUND);
+    }
   }
 
   @PostMapping("/seller/item/new")
@@ -75,7 +77,7 @@ public class ItemController {
     return ResponseEntity.ok(itemService.update(item));
   }
 
-  @DeleteMapping("/seller/product/{id}/delete")
+  @DeleteMapping("/seller/item/{id}/delete")
   public ResponseEntity delete(@PathVariable("id") String itemId) {
     itemService.delete(itemId);
     return ResponseEntity.ok().build();

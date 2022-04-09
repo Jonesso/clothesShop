@@ -75,8 +75,11 @@ public class ItemServiceImpl implements ItemService {
 
     int update = itemInfo.getItemStock() - amount;
 
-    if (update <= 0) {
+    if (update < 0) {
       throw new CustomException(ResultEnum.ITEM_NOT_ENOUGH);
+    }
+    if (update == 0) {
+      offSale(itemId);
     }
 
     itemInfo.setItemStock(update);

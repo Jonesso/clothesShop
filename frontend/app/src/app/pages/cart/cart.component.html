@@ -50,7 +50,7 @@
 
 <div *ngIf="itemInOrders?.length > 0; else empty">
     <h5 style="display: inline;" class="text-dark">Total: {{total | currency}}</h5>
-    <button (click)="checkout()" class="btn btn-danger float-right">Checkout</button>
+    <button (click)="checkout()" class="btn btn-danger float-right mr-3">Checkout</button>
 </div>
 <ng-template #empty>
     <h4 class="text-muted text-center">The cart is empty.</h4>
